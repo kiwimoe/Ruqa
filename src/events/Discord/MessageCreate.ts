@@ -32,44 +32,6 @@ export default new GatewayEvent("messageCreate", async (message: Message<Possibl
         return;
     }
 
-    for (const perm of cmd.permissions!) {
-        switch (perm) {
-            case "connect":
-                if (!cast<VoiceChannel>(ruqa.getChannel(message.member?.voiceState.channelID!)).permissionsOf(ruqa.user.id).has("voiceConnect")) {
-                    await createEmbedPost(cast<Message>(message), "I don't have connect permission to execute this command.");
-                    return;
-                }
-                break;
-
-            case "manageGuild":
-                if (!cast<VoiceChannel>(ruqa.getChannel(message.member?.voiceState.channelID!)).permissionsOf(ruqa.user.id).has("manageGuild")) {
-                    await createEmbedPost(cast<Message>(message), "I don't have manage guild permission to execute this command.");
-                    return;
-                }
-                break;
-
-            case "speak":
-                if (!cast<VoiceChannel>(ruqa.getChannel(message.member?.voiceState.channelID!)).permissionsOf(ruqa.user.id).has("voiceSpeak")) {
-                    await createEmbedPost(cast<Message>(message), "I don't have speak permission to execute this command.");
-                    return;
-                }
-                break;
-
-            case "reactions":
-                if (!cast<VoiceChannel>(ruqa.getChannel(message.member?.voiceState.channelID!)).permissionsOf(ruqa.user.id).has("addReactions")) {
-                    await createEmbedPost(cast<Message>(message), "I don't have reactions permission to execute this command.");
-                    return;
-                }
-                break;
-
-            case "none":
-                break;
-
-            default:
-                throw new TypeError("Provided one of permission key is invalid.");
-        }
-    }
-
     for (const req of cmd.requirements!) {
         switch (req) {
             case "insideVC":
@@ -130,9 +92,44 @@ export default new GatewayEvent("messageCreate", async (message: Message<Possibl
 
             case "none":
                 break;
+        }
+    }
+
+    for (const perm of cmd.permissions!) {
+        switch (perm) {
+            case "connect":
+                if (!cast<VoiceChannel>(ruqa.getChannel(message.member?.voiceState.channelID!)).permissionsOf(ruqa.user.id).has("voiceConnect")) {
+                    await createEmbedPost(cast<Message>(message), "I don't have connect permission to execute this command.");
+                    return;
+                }
+                break;
+
+            case "manageGuild":
+                if (!cast<VoiceChannel>(ruqa.getChannel(message.member?.voiceState.channelID!)).permissionsOf(ruqa.user.id).has("manageGuild")) {
+                    await createEmbedPost(cast<Message>(message), "I don't have manage guild permission to execute this command.");
+                    return;
+                }
+                break;
+
+            case "speak":
+                if (!cast<VoiceChannel>(ruqa.getChannel(message.member?.voiceState.channelID!)).permissionsOf(ruqa.user.id).has("voiceSpeak")) {
+                    await createEmbedPost(cast<Message>(message), "I don't have speak permission to execute this command.");
+                    return;
+                }
+                break;
+
+            case "reactions":
+                if (!cast<VoiceChannel>(ruqa.getChannel(message.member?.voiceState.channelID!)).permissionsOf(ruqa.user.id).has("addReactions")) {
+                    await createEmbedPost(cast<Message>(message), "I don't have reactions permission to execute this command.");
+                    return;
+                }
+                break;
+
+            case "none":
+                break;
 
             default:
-                break;
+                throw new TypeError("Provided one of permission key is invalid.");
         }
     }
 

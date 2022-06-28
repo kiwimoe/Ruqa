@@ -92,6 +92,9 @@ export default new GatewayEvent("messageCreate", async (message: Message<Possibl
 
             case "none":
                 break;
+
+            default:
+                throw new TypeError(`Requirement ${req} is invalid.`);
         }
     }
 
@@ -129,7 +132,7 @@ export default new GatewayEvent("messageCreate", async (message: Message<Possibl
                 break;
 
             default:
-                throw new TypeError("Provided one of permission key is invalid.");
+                throw new TypeError(`Permission ${perm} is invalid.`);
         }
     }
 

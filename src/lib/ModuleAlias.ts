@@ -2,7 +2,7 @@ import { resolve } from "node:path";
 import moduleAlias from "module-alias";
 
 /**
- * Which I use most (embed, logger, collector) I've set a direct
+ * Those I use most (embed, logger, collector) I've set a direct
  * alias for them.
  */
 moduleAlias.addAliases({

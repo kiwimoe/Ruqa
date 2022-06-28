@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "incremental": true,
+    "tsBuildInfoFile": "./tsbuildinfo",
+    "target": "esnext",
+    "module": "commonjs",
+    "resolveJsonModule": true,
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@collector": ["utils/Collector"],
+      "@command": ["structures/Command"],
+      "@components/*": ["components/*"],
+      "@config/*": ["config/*"],
+      "@embed": ["utils/RichEmbed"],
+      "@funcs/*": ["functions/*"],
+      "@gateway_event": ["structures/GatewayEvent"],
+      "@logger": ["utils/Logger"],
+      "@player_event": ["structures/PlayerEvent"],
+      "@root": ["."],
+      "@typings/*": ["typings/*"],
+      "@utils/*": ["utils/*"]
+    },
+  },
+  "include": ["**/*"]
+}

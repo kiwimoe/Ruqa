@@ -1,5 +1,5 @@
 import panic from "@utils/NodeExceptions";
-import cast from "@funcs/cast";
+import cast from "./cast";
 
 const wrapTryCatchError = async <T>(fn: any): Promise<T> => {
     try {

@@ -25,9 +25,10 @@ export default class Ruqa extends Client {
 
     constructor() {
         super(env.DEVMODE! === "true" ? env.DEVTOKEN! : env.TOKEN!, {
-            intents: ["guilds", "guildMessages", "guildVoiceStates"],
             allowedMentions: { everyone: false, roles: false, users: false },
             defaultImageSize: 1024,
+            intents: ["guilds", "guildMessages", "guildVoiceStates"],
+            maxShards: "auto",
             messageLimit: 0,
             restMode: true,
         });
@@ -45,6 +46,10 @@ export default class Ruqa extends Client {
         await this.loadGatewayEvents();
         await this.linkVulkava();
         await this.loadLavalinkEvents();
+
+        if (env.DEVMODE !== "true") {
+            this.ignoredErrors();
+        }
     }
 
     private async loadCommands(): Promise<void> {
@@ -97,6 +102,13 @@ export default class Ruqa extends Client {
         }
         Logger.ok(`Loaded ${events.length} lavalink events`);
     }
+
+    private ignoredErrors(): void {
+        ["uncaughtException", "uncaughtExceptionMonitor", "unhandledRejection"]
+        .forEach((each) => {
+            process.on(each, () => { });
+        });
+    }
 }
 
 declare module "eris" {
@@ -106,5 +118,6 @@ declare module "eris" {
         componentCollectors: Array<unknown>;
         cachedTrackStartMsg: Message;
         cachedNowplayingMsg: Message;
+        usedCommandPause: boolean;
     }
 }

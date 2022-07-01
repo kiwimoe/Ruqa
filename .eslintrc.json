@@ -1,0 +1,37 @@
+{
+    "env": {
+        "es2021": true,
+        "node": true
+    },
+    "extends": [
+        "airbnb-base"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": "latest"
+    },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "rules": {
+        "class-methods-use-this": "off",
+        "curly": "error",
+        "default-case": "off",
+        "indent": ["off", "tab"],
+        "no-await-in-loop": "off",
+        "no-bitwise": "off",
+        "new-cap": "off",
+        "no-case-declarations": "off",
+        "no-console": "error",
+        "no-param-reassign": "off",
+        "no-plusplus": "off",
+        "no-restricted-syntax": "off",
+        "no-shadow": "off",
+        "no-this-before-super": "error",
+        "no-unused-vars": "error",
+        "no-useless-return": "off",
+        "no-void": "error",
+        "semi": ["error", "always"],
+        "quotes": ["error", "double"]
+    }
+}

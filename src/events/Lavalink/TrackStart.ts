@@ -7,6 +7,7 @@ import PlayerEvent from "@player_event";
 import ComponentCollector from "@collector";
 import trackSendRow from "@components/TrackStartState";
 import nowplayingSendRow from "@components/NowplayingState";
+import wrapTryCatchError from "@funcs/wrapTryCatch";
 
 export default new PlayerEvent("trackStart", async (player: Player, track: Track) => {
     const embed = new RichEmbed()
@@ -22,7 +23,7 @@ export default new PlayerEvent("trackStart", async (player: Player, track: Track
         },
     );
     const filter = (i: ComponentInteraction) => (
-        i.member!.id === (player.current?.requester as User).id
+        i.member!.id === (player.current?.requester as User)?.id
     );
     const collector = new ComponentCollector(ruqa, ruqa.cachedTrackStartMsg, filter, { time: 0 });
 
@@ -34,6 +35,7 @@ export default new PlayerEvent("trackStart", async (player: Player, track: Track
                     nowplayingSendRow.components[1].disabled = false;
                     (trackSendRow.components[0] as { label: string }).label = "Pause";
                     trackSendRow.components[1].disabled = false;
+                    ruqa.usedCommandPause = false;
                     player.pause(false);
                     if (ruqa?.cachedTrackStartMsg) {
                         ruqa.cachedTrackStartMsg.edit({
@@ -50,6 +52,7 @@ export default new PlayerEvent("trackStart", async (player: Player, track: Track
                     nowplayingSendRow.components[1].disabled = true;
                     (trackSendRow.components[0] as { label: string }).label = "Resume";
                     trackSendRow.components[1].disabled = true;
+                    ruqa.usedCommandPause = true;
                     player.pause(true);
                     if (ruqa?.cachedTrackStartMsg) {
                         await ruqa.cachedTrackStartMsg.edit({
@@ -76,12 +79,12 @@ export default new PlayerEvent("trackStart", async (player: Player, track: Track
                     });
                     return;
                 }
-                await ruqa.cachedTrackStartMsg.delete();
+                await wrapTryCatchError<void>(ruqa.cachedTrackStartMsg.delete());
                 player.skip();
                 break;
 
             case "stop":
-                await ruqa.cachedTrackStartMsg.delete();
+                await wrapTryCatchError<void>(ruqa.cachedTrackStartMsg.delete());
                 player.destroy();
                 break;
 

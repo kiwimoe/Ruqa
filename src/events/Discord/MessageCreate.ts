@@ -23,7 +23,7 @@ export default new GatewayEvent("messageCreate", async (message: Message<Possibl
         return;
     }
     const args = message.content.split(" ");
-    const firstArg = args.shift()?.slice(prefix?.length);
+    const firstArg = args.shift()?.slice(prefix?.length).toLowerCase();
     const cmd = (
         ruqa.commands?.get(firstArg!) ?? ruqa.aliases?.get(firstArg!)
     ) as CommandOptions;

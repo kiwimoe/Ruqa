@@ -5,7 +5,7 @@ import Command from "@command";
 
 export default new Command({
     name: "leave",
-    aliases: ["lost"],
+    aliases: ["lost", "disconnect"],
     description: "Destroy any existing connection and leave voice channel",
     category: "Music",
     example: "leave",

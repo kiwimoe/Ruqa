@@ -1,5 +1,5 @@
 import type { Client, Message } from "eris";
-import type { Track, UnresolvedTrack } from "vulkava";
+import type { SearchResult, Track, UnresolvedTrack } from "vulkava";
 import Command from "@command";
 import createEmbedPost from "@funcs/createEmbedPost";
 import emojis from "@config/emojis.json";
@@ -22,7 +22,7 @@ export default new Command({
             await createEmbedPost(message, "You need to query a song.");
             return;
         }
-        let result;
+        let result: any;
 
         if (ruqa.cache.see.length === 0) {
             result = await ruqa.audio.search(query as string);
@@ -83,7 +83,7 @@ export default new Command({
         }
 
         if (!player.playing) {
-            player.play();
+            await player.play();
         }
     },
 });

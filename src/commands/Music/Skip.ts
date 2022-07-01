@@ -2,6 +2,8 @@ import type { Message } from "eris";
 import checkIfActive from "@funcs/checkIfActive";
 import createEmbedPost from "@funcs/createEmbedPost";
 import Command from "@command";
+import wrapTryCatchError from "@funcs/wrapTryCatch";
+import emojis from "@config/emojis.json";
 
 export default new Command({
     name: "skip",
@@ -23,7 +25,7 @@ export default new Command({
             await createEmbedPost(message, "There are so songs in the queue to skip.");
             return;
         }
-        const index = args[0];
+        const index = args[0] || 1;
         if (Number.isNaN(Number(index))) {
             await createEmbedPost(message, "Index must be a number.");
             return;
@@ -33,5 +35,6 @@ export default new Command({
             return;
         }
         player.skip(Number(index) || undefined);
+        await wrapTryCatchError<void>(message.addReaction(emojis.ok_hand));
     },
 });

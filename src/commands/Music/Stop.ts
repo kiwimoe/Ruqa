@@ -23,6 +23,6 @@ export default new Command({
         }
         ruqa.audio.emit("trackEnd", () => { });
         player.destroy();
-        wrapTryCatchError<void>(message.addReaction(emojis.ok_hand));
+        await wrapTryCatchError<void>(message.addReaction(emojis.ok_hand));
     },
 });

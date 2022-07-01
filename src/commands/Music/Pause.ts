@@ -1,10 +1,10 @@
-import { type Client, type Message, Constants } from "eris";
-import pauseSendComponents from "@components/PauseState";
-import resumeSendComponents from "@components/ResumeState";
+import { type Client, type Message } from "eris";
 import checkIfActive from "@funcs/checkIfActive";
 import Command from "@command";
 import wrapTryCatchError from "@funcs/wrapTryCatch";
 import emojis from "@config/emojis.json";
+import pauseResumeSendRow from "@components/PauseResumeState";
+import nowplayingSendRow from "@components/NowplayingState";
 
 export default new Command({
     name: "pause",
@@ -24,29 +24,30 @@ export default new Command({
         }
         if (player.paused) {
             if (ruqa.cachedTrackStartMsg) {
-                await ruqa.cachedTrackStartMsg.edit({
-                    components: [
-                        {
-                            type: Constants.ComponentTypes.ACTION_ROW,
-                            components: resumeSendComponents,
-                        },
-                    ],
-                });
+                (pauseResumeSendRow.components[0] as { label: string }).label = "Pause";
+                pauseResumeSendRow.components[1].disabled = false;
+                await ruqa.cachedTrackStartMsg.edit({ components: [pauseResumeSendRow] });
             }
+            if (ruqa.cachedNowplayingMsg) {
+                (nowplayingSendRow.components[0] as { label: string }).label = "Pause";
+                nowplayingSendRow.components[1].disabled = false;
+            }
+            ruqa.usedCommandPause = false;
             player.pause(false);
         } else {
             if (ruqa.cachedTrackStartMsg) {
-                await ruqa.cachedTrackStartMsg.edit({
-                    components: [
-                        {
-                            type: Constants.ComponentTypes.ACTION_ROW,
-                            components: pauseSendComponents,
-                        },
-                    ],
-                });
+                (pauseResumeSendRow.components[0] as { label: string }).label = "Resume";
+                pauseResumeSendRow.components[1].disabled = true;
+                await ruqa.cachedTrackStartMsg.edit({ components: [pauseResumeSendRow] });
             }
+            if (ruqa.cachedNowplayingMsg) {
+                (nowplayingSendRow.components[0] as { label: string }).label = "Resume";
+                nowplayingSendRow.components[1].disabled = true;
+                await ruqa.cachedNowplayingMsg.edit({ components: [nowplayingSendRow] });
+            }
+            ruqa.usedCommandPause = true;
             player.pause(true);
         }
-        wrapTryCatchError<void>(message.addReaction(emojis.ok));
+        await wrapTryCatchError<void>(message.addReaction(emojis.ok));
     },
 });

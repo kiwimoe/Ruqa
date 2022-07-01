@@ -1,24 +1,18 @@
+import type { Client, Message } from "eris";
 import Command from "@command";
-import RichEmbed from "@embed";
-import ReadDir from "@utils/ReadDir";
-import type { Message } from "eris";
 
 export default new Command({
     name: "help",
     aliases: ["h"],
-    description: "Shows the help command",
+    description: "Sends the help gist",
     category: "Info",
-    example: "help [command (optional)]",
     requirements: ["none"],
     permissions: ["none"],
 
-    run: async ({ message }: {
+    run: async ({ ruqa, message }: {
+        ruqa: Client,
         message: Message,
     }) => {
-        const embed = new RichEmbed()
-        .setColor(RichEmbed.embedColor)
-        .setTitle("Commands [under work]")
-        .addField("Music Commands", await ReadDir("dist/commands/Music");
-        await message.channel.createMessage({ embeds: [embed] });
+        await message.channel.createMessage({ content: `Thanks for using ${ruqa.user.username}! Commands are listed here.\nhttps://gist.github.com/Ruzie/e73bf114b38709c3720f69a98d13ff4c` });
     },
 });

@@ -33,6 +33,6 @@ export default new Command({
             return;
         }
         player.filters.setVolume(Number(level));
-        wrapTryCatchError<void>(message.addReaction(emojis.ok_hand));
+        await wrapTryCatchError<void>(message.addReaction(emojis.ok_hand));
     },
 });

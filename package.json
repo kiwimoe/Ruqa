@@ -22,7 +22,7 @@
     "ms": "^2.1.3",
     "pretty-ms": "7.0.1",
     "typescript": "^4.7.4",
-    "vulkava": "github:Ruqabot/vulkava-ruqa#dist"
+    "vulkava": "https://github.com/Ruqabot/vulkava-ruqa.git#dist"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.27.1",

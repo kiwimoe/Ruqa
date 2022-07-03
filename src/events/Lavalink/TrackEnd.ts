@@ -5,7 +5,12 @@ import wrapTryCatchError from "@funcs/wrapTryCatch";
 
 export default new PlayerEvent("trackEnd", async (player: Player) => {
     if (!player.queue?.length) {
-        await wrapTryCatchError<void>(ruqa.cachedTrackStartMsg.delete());
+        if (ruqa.cachedTrackStartMsg) {
+            await wrapTryCatchError<void>(ruqa.cachedTrackStartMsg.delete());
+        }
+        if (ruqa.cachedNowplayingMsg) {
+            await wrapTryCatchError<void>(ruqa.cachedNowplayingMsg.delete()); 
+        }
         player?.destroy();
     } else {
         await wrapTryCatchError<void>(ruqa.cachedTrackStartMsg.delete());

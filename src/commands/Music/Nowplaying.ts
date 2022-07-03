@@ -12,6 +12,7 @@ import Command from "@command";
 import ComponentCollector from "@collector";
 import createProgressBar from "@utils/ProgressBar";
 import RichEmbed from "@embed";
+import wrapTryCatchError from "@funcs/wrapTryCatch";
 
 export default new Command({
     name: "nowplaying",
@@ -107,6 +108,18 @@ export default new Command({
                     : "There are no upcoming track(s) in the queue")
                     .addField("Progress", `${bar}\n${player?.current?.isStream ? "Stream" : `${prettyMs(Number(player?.exactPosition), { verbose: true })} (${Number(percentage).toFixed(2)}%)`}`);
                     await ruqa.cachedNowplayingMsg.edit({ embeds: [embed] });
+                    break;
+
+                case "np_stop":
+                    await wrapTryCatchError<void>(ruqa.cachedNowplayingMsg.delete());
+                    player.destroy();
+                    if (ruqa.cachedTrackStartMsg) {
+                        await wrapTryCatchError<void>(ruqa.cachedTrackStartMsg.delete());
+                    }
+                    break;
+
+                case "np_delete":
+                    await wrapTryCatchError<void>(ruqa.cachedNowplayingMsg.delete());
                     break;
                 }
         });
